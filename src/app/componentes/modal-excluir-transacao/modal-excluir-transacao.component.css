@@ -1,0 +1,33 @@
+.header{
+  display: flex;
+  align-items: center;
+  padding-left: 1vw;
+  padding-top: 2vh;
+  background-color: #673ab7;
+  color: white;
+  width: auto;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}
+
+.botoes{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.botao-aceitar:hover{
+  border: 1px solid green;
+}
+
+.botao-cancelar:hover{
+  border: 1px solid red;
+}
+
+.botao-cancelar, .botao-aceitar{
+  background-color: lightgray;
+}

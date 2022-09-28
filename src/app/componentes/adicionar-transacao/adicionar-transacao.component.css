@@ -1,0 +1,39 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
+mat-card{
+  background-color: #8172BD;
+}
+
+.camposContainer{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.formGroup{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.botoesContainer{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  gap:1rem;
+}
+
+mat-label{
+  text-align: center;
+  color: white;
+}
+
+.mat-input-element::placeholder{
+  color: white;
+}
