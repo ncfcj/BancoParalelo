@@ -24,10 +24,19 @@
   border: 1px solid green;
 }
 
+.botao-aceitar:focus{
+  border: 1px solid green;
+}
+
+.botao-cancelar:focus{
+  border: 1px solid red;
+}
+
 .botao-cancelar:hover{
   border: 1px solid red;
 }
 
 .botao-cancelar, .botao-aceitar{
-  background-color: lightgray;
+  background-color: white;
+  border: 1px solid lightgray;
 }

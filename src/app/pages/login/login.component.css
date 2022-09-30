@@ -1,0 +1,34 @@
+.titulo{
+  color: #673ab7;
+}
+
+.cardLogin{
+  min-width: 15vw;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #673ab7;
+  min-height: 100vh;
+}
+
+.conteudo-login{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.input{
+  color:black;
+}
+
+.cabecalho{
+  display: none;
+}
+
+.rodape{
+  display: none;
+}

@@ -9,3 +9,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .custom-dialog-container{
   padding: 0px !important;
 }
+
+.erro-snackbar {
+  background-color: whitesmoke;
+  border: 1px solid red;
+  color: #673ab7;
+}
+
+.erro-snackbar button{
+  background-color: whitesmoke;
+  color: red;
+}
+
+.sucesso-snackbar {
+  background-color: whitesmoke;
+  border: 1px solid #673ab7;
+  color: #673ab7;
+}
+
+.sucesso-snackbar button{
+  background-color: whitesmoke;
+  color: #673ab7;
+}

@@ -1,4 +1,5 @@
-import { Transacao } from './../../transacao';
+import { TransacaoService } from './../../../services/transacao/transacao.service';
+import { ITransacao } from '../../../interfaces/ITransacao';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +13,8 @@ export class ModalExcluirTransacaoComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalExcluirTransacaoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Transacao
+    private service: TransacaoService,
+    @Inject(MAT_DIALOG_DATA) public data: ITransacao
   ) { }
 
   ngOnInit(): void {
@@ -21,6 +23,12 @@ export class ModalExcluirTransacaoComponent implements OnInit {
   DialogAfterOpen() : void {
     this.dialogRef.afterOpened().subscribe(x => {
       console.log(this.data);
+    });
+  }
+
+  excluirTransacao(id: number): void{
+    this.service.excluir(id).subscribe(x => {
+      alert(`Transacao ${id} excluida com sucesso !`);
     });
   }
 

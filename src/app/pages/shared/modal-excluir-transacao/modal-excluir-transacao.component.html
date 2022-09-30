@@ -5,6 +5,6 @@
   <p>Deseja excluir a transacao {{data.id}}?</p>
 </div>
 <div mat-dialog-actions class="botoes">
-  <button class="botao-aceitar" mat-button [mat-dialog-close]="true" cdkFocusInitial><fa-icon style="color: green;" [icon]="faCheck"></fa-icon> Sim</button>
+  <button class="botao-aceitar" mat-button (click)="excluirTransacao(data.id!)" [mat-dialog-close]="true" cdkFocusInitial><fa-icon style="color: green;" [icon]="faCheck"></fa-icon> Sim</button>
   <button class="botao-cancelar" mat-button (click)="closeDialog()"><fa-icon style="color: red;" [icon]="faXmark"></fa-icon> Cancelar</button>
 </div>

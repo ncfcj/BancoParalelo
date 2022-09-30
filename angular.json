@@ -13,7 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/bytebank",
+            "allowedCommonJsDependencies": [
+              "buffer"
+           ],
+            "outputPath": "dist/banco-paralelo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

@@ -1,11 +1,11 @@
-import { ModalExcluirTransacaoComponent } from './../modal-excluir-transacao/modal-excluir-transacao.component';
-import { Transacao } from './../../transacao';
-import { TransacaoServiceService } from './../service/transacao-service.service';
+import { ITransacao } from '../../interfaces/ITransacao';
+import { ModalExcluirTransacaoComponent } from '../shared/modal-excluir-transacao/modal-excluir-transacao.component';
+import { TransacaoService } from './../../services/transacao/transacao.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'app-listar-transacao',
@@ -16,13 +16,13 @@ import { ViewEncapsulation } from '@angular/core';
 export class ListarTransacaoComponent implements OnInit{
 
   constructor(
-    private service: TransacaoServiceService,
+    private service: TransacaoService,
     public dialog : MatDialog
     ) { }
 
   confirmaExclusao : boolean = false;
-  transacoes : Transacao[] = [];
-  dataSource = new MatTableDataSource<Transacao>();
+  transacoes : ITransacao[] = [];
+  dataSource = new MatTableDataSource<ITransacao>();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -34,7 +34,7 @@ export class ListarTransacaoComponent implements OnInit{
   buscarTransacoes(): void{
     this.service.consultar().subscribe((listaTransacoes) => {
       this.transacoes = listaTransacoes;
-      this.dataSource = new MatTableDataSource<Transacao>(listaTransacoes);
+      this.dataSource = new MatTableDataSource<ITransacao>(listaTransacoes);
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -53,8 +53,8 @@ export class ListarTransacaoComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Modal foi fechado");
       this.confirmaExclusao = result;
+      this.buscarTransacoes();
     });
   }
 

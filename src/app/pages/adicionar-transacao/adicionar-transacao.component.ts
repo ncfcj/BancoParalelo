@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { TransacaoServiceService } from './../service/transacao-service.service';
-import { Transacao } from './../../transacao';
+import { TransacaoService } from './../../services/transacao/transacao.service';
+import { ITransacao } from '../../interfaces/ITransacao';
 import { Component, OnInit } from '@angular/core';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,13 +12,13 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 export class AdicionarTransacaoComponent implements OnInit {
 
   constructor(
-    private service: TransacaoServiceService,
+    private service: TransacaoService,
     private route: Router) { }
 
   ngOnInit(): void {
   }
 
-  transacao: Transacao = {
+  transacao: ITransacao = {
     Quantidade: "",
     ContaDestino: ""
   }

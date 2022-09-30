@@ -2,6 +2,10 @@
   background-color: green;
 }
 
+.botao-login{
+  margin-left: auto;
+}
+
 .lista{
   display: flex;
   flex-flow: row nowrap;

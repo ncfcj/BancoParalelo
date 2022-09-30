@@ -1,11 +1,6 @@
 {
   "transacoes": [
     {
-      "Quantidade": "R$ 1.212.312",
-      "ContaDestino": "3312-1",
-      "id": 1
-    },
-    {
       "Quantidade": "R$ 211.221",
       "ContaDestino": "1221-2",
       "id": 2
@@ -34,11 +29,9 @@
       "Quantidade": "R$ 1.231",
       "ContaDestino": "1231-2",
       "id": 7
-    },
-    {
-      "Quantidade": "R$ 1.111.111.111.111.111",
-      "ContaDestino": "1231-2",
-      "id": 8
     }
+  ],
+  "usuarios" : [
+
   ]
 }

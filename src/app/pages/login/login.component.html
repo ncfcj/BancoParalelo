@@ -1,0 +1,31 @@
+<div class="container">
+  <mat-card class="cardLogin">
+    <mat-card-title class="titulo"><fa-icon [icon]="faSackDollar"></fa-icon> Banco Paralelo</mat-card-title>
+    <mat-card-subtitle class="titulo">Login</mat-card-subtitle>
+    <form [formGroup]="formLogin" novalidate>
+      <mat-card-content class="conteudo-login">
+        <mat-form-field appearance="outline" class="form-field-full">
+          <mat-label>Email</mat-label>
+          <input class="input" type="email" matInput formControlName="email" placeholder="Ex. email@email.com">
+          <mat-error *ngIf="formLogin.get('email')!.hasError('email') && formLogin.get('email')!.touched">
+            Por favor informe um email válido
+          </mat-error>
+          <mat-error *ngIf="formLogin.get('email')!.hasError('required') && formLogin.get('email')!.touched">
+            Email é <strong>obrigatório</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-full">
+          <mat-label>Senha</mat-label>
+          <input class="input" type="password" matInput formControlName="senha">
+          <mat-error *ngIf="formLogin.get('senha')!.invalid && formLogin.get('senha')!.touched">Senha é
+            <strong>obrigatória</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </form>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" class="full" align="end" (click)="logar()">Entrar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
