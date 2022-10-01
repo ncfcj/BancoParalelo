@@ -1,8 +1,7 @@
+import { ToolsService } from '../../../services/tools/tools.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
-
 @Component({
   selector: 'app-cabecalho',
   templateUrl: './cabecalho.component.html',
@@ -11,24 +10,27 @@ import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 export class CabecalhoComponent implements OnInit {
 
   constructor(
-    private snackbar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private tools: ToolsService
   ) { }
 
   ngOnInit(): void {
   }
 
   deslogar(): void{
-    this.snackbar.open("Deslogando...", "", {
-      horizontalPosition: "end",
-      verticalPosition: "top",
-      duration: 1000,
-      panelClass: ['sucesso-snackbar']
-    })
-    setTimeout(() => {
-      this.router.navigate(['login']);
-    }, 1000);
+    this.tools.mostrarAlerta({
+      mensagem: "Deslogando...",
+      mensagemBotao: "",
+      tipoAlerta: "sucesso"
+    });
 
+    setTimeout(() => {
+      this.redirecionar("Login");
+    }, 1000);
+  }
+
+  redirecionar(rota : string){
+    this.router.navigate([`${rota}`]);
   }
 
   //FA icons

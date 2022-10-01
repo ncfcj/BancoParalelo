@@ -1,11 +1,10 @@
+import { ToolsService } from './../tools/tools.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Router } from '@angular/router';
 import { Observable, of } from "rxjs";
 import { tap } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
-import { IUsuario } from 'src/app/interfaces/IUsuario';
-import { Buffer } from 'buffer';
+import { Usuario } from 'src/app/interfaces/Usuario';
 const apiUrl = environment.apiUrl + 'usuarios';
 
 @Injectable({
@@ -15,26 +14,21 @@ export class UsuarioService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private tools: ToolsService
   ) { }
 
-  logar(usuario: IUsuario) : Observable<any> {
-    return this.mockUsuarioLogin(usuario).pipe(tap((response) => {
-      if(!response.sucesso) return;
-      //decoding
-      var token = Buffer.from(JSON.stringify('TokenQueSeriaGeradoPelaAPI')).toString('base64');
-      var usuarioBase64 = Buffer.from(JSON.stringify(usuario)).toString('base64');
+  logar(usuario: Usuario) : Observable<any> {
+    return this.mockUsuarioLogin(usuario).pipe(tap((resposta) => {
+      if(!resposta.sucesso) return;
+      this.salvarSessao(usuario);
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('usuario', usuarioBase64);
       setTimeout(() => {
-        this.router.navigate(['']);
+        this.tools.redirecionar("");
       }, 1000);
-
     }))
   }
 
-  private mockUsuarioLogin(usuario: IUsuario): Observable<any> {
+  private mockUsuarioLogin(usuario: Usuario): Observable<any> {
     var retornoMock: any = [];
     if(usuario.email === "teste@teste.com" && usuario.senha == "123"){
       retornoMock.sucesso = true;
@@ -48,23 +42,30 @@ export class UsuarioService {
     return of(retornoMock);
   }
 
-  deslogar() {
-    localStorage.clear();
-    this.router.navigate(['login']);
+  salvarSessao(usuario : Usuario){
+    var token = this.tools.criptografar("TokenQueSeriaGeradoPelaAPI");
+    var usuarioCriptografado = this.tools.criptografar(usuario);
+    localStorage.setItem('token', token);
+    localStorage.setItem('usuario', usuarioCriptografado);
   }
 
-  get obterUsuarioLogado() : IUsuario {
-    var usuarioLogadoLocalStorage = localStorage.getItem('usuario')?.toString();
-    var usuarioLogado = Buffer.from(JSON.stringify(usuarioLogadoLocalStorage), 'base64').toString('utf-8');
-    return localStorage.getItem('usuario')
-    ? JSON.parse(usuarioLogado)
-    : null
+  deslogar() {
+    localStorage.clear();
+    this.tools.redirecionar("login");
+  }
+
+  get obterUsuarioLogado() : Usuario {
+    var temUsuarioLogado = localStorage.getItem('usuario');
+    var usuarioCriptografado = temUsuarioLogado?.toString();
+    var usuarioLogado = this.tools.descriptografar(usuarioCriptografado);
+    return temUsuarioLogado ? JSON.parse(usuarioLogado) : null
   }
 
   get obterIdUsuarioLogado() : string {
-    var usuario : IUsuario;
-    var usuarioLogado = Buffer.from(JSON.stringify(localStorage.getItem('usuario')?.toString()), 'base64').toString('utf-8');
-    if(localStorage.getItem('usuario')){
+    var usuario : Usuario;
+    var temUsuarioLogado = localStorage.getItem('usuario');
+    if(temUsuarioLogado){
+      var usuarioLogado = this.tools.descriptografar(temUsuarioLogado?.toString());
       usuario = JSON.parse(usuarioLogado);
       return usuario.id;
     }
@@ -72,14 +73,16 @@ export class UsuarioService {
   }
 
   get obterTokenUsuario(): string {
-    var token = Buffer.from(JSON.stringify(localStorage.getItem('token')?.toString()), 'base64').toString('utf-8');
-    if(localStorage.getItem('token')){
+    var tokenCriptografado = localStorage.getItem('token');
+    if(tokenCriptografado){
+      var token = this.tools.descriptografar(tokenCriptografado?.toString());
       return JSON.parse(token);
     }
     return "";
   }
 
   get logado() : boolean{
-    return localStorage.getItem('token') ? true : false;
+    var temUsuarioLogado = localStorage.getItem('token');
+    return temUsuarioLogado ? true : false;
   }
 }

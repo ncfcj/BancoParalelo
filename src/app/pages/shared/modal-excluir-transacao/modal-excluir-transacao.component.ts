@@ -1,5 +1,6 @@
+import { ToolsService } from './../../../services/tools/tools.service';
 import { TransacaoService } from './../../../services/transacao/transacao.service';
-import { ITransacao } from '../../../interfaces/ITransacao';
+import { Transacao } from '../../../interfaces/Transacao';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +15,8 @@ export class ModalExcluirTransacaoComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ModalExcluirTransacaoComponent>,
     private service: TransacaoService,
-    @Inject(MAT_DIALOG_DATA) public data: ITransacao
+    private tools: ToolsService,
+    @Inject(MAT_DIALOG_DATA) public data: Transacao
   ) { }
 
   ngOnInit(): void {
@@ -28,12 +30,15 @@ export class ModalExcluirTransacaoComponent implements OnInit {
 
   excluirTransacao(id: number): void{
     this.service.excluir(id).subscribe(x => {
-      alert(`Transacao ${id} excluida com sucesso !`);
+      this.tools.mostrarAlerta({
+        mensagem: `Transacao ${id} excluida com sucesso !`,
+        tipoAlerta: "sucesso"
+      });
     });
   }
 
-  closeDialog(): void {
-    this.dialogRef.close('Pizza!');
+  fecharModal(): void {
+    this.dialogRef.close('');
   }
 
   //Fa icons

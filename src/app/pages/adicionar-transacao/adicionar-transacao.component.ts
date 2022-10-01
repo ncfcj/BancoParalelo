@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { TransacaoService } from './../../services/transacao/transacao.service';
-import { ITransacao } from '../../interfaces/ITransacao';
+import { Transacao } from '../../interfaces/Transacao';
 import { Component, OnInit } from '@angular/core';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,12 +13,13 @@ export class AdicionarTransacaoComponent implements OnInit {
 
   constructor(
     private service: TransacaoService,
-    private route: Router) { }
+    private route: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
-  transacao: ITransacao = {
+  transacao: Transacao = {
     Quantidade: "",
     ContaDestino: ""
   }
@@ -28,14 +29,17 @@ export class AdicionarTransacaoComponent implements OnInit {
   faXmark = faXmark;
 
   salvarTransacao(): void{
-    alert(this.transacao.ContaDestino);
     this.service.salvar(this.transacao).subscribe(() => {
-      this.route.navigate(["listarTransacoes"]);
+      this.redirecionar("listarTransacoes");
     });
   }
 
   cancelar(): void{
-    this.route.navigate(["listarTransacoes"]);
+    this.redirecionar("listarTransacoes");
+  }
+
+  redirecionar(rota : string ): void{
+    this.route.navigate([`${rota}`]);
   }
 
 }

@@ -1,7 +1,9 @@
+import { ToolsService } from './../../services/tools/tools.service';
+import { ConfiguracaoAlerta } from './../../interfaces/ConfiguracaoAlerta';
 import { Component, OnInit } from '@angular/core';
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IUsuario } from '../../interfaces/IUsuario';
+import { Usuario } from '../../interfaces/Usuario';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -12,48 +14,47 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
-    private usuarioService: UsuarioService,
-    private snackBar: MatSnackBar) { }
+    private formularioBuilder: FormBuilder,
+    private service: UsuarioService,
+    private tools: ToolsService
+  ) { }
 
   ngOnInit(): void {
-    this.criarForm();
+    this.criarFormulario();
   }
 
-  formLogin = new FormGroup ({
+  formulario = new FormGroup ({
     email: new FormControl(),
     senha: new FormControl()
   });
 
-  criarForm(){
-    this.formLogin = this.formBuilder.group({
+  criarFormulario(): void {
+    this.formulario = this.formularioBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required]]
     });
   }
 
-  logar(){
-    if(this.formLogin.invalid) return;
-    var usuario = this.formLogin.getRawValue() as IUsuario;
-    this.usuarioService.logar(usuario).subscribe((resposta) => {
-      console.log(resposta);
+  logar() : void {
+    if(this.formulario.invalid) return;
+    var usuario = this.formulario.getRawValue() as Usuario;
+    this.service.logar(usuario).subscribe((resposta) => {
       if(!resposta.sucesso){
-        this.snackBar.open('Falha na autenticacao', 'Usuário ou senha incorretos.', {
-          duration: 3000,
-          horizontalPosition: "center",
-          verticalPosition: "top",
-          panelClass: ['erro-snackbar'],
+        this.tools.mostrarAlerta({
+          mensagem : "Falha no Login",
+          mensagemBotao : "Usuario ou Senha Incorretos",
+          tipoAlerta : "erro"
         });
       }else{
-        this.snackBar.open(`Seja Bem vindo(a) ${resposta.nome}`, "", {
-          duration: 1000,
-          horizontalPosition: "center",
-          verticalPosition: "top",
-          panelClass: ['sucesso-snackbar'],
+        this.tools.mostrarAlerta({
+          mensagem : `Seja Bem vindo(a) ${resposta.nome}`,
+          mensagemBotao : "",
+          tipoAlerta : "sucesso"
         });
       }
     });
   }
+
 
   //FA icons
   faSackDollar = faSackDollar;

@@ -1,4 +1,4 @@
-import { ITransacao } from '../../interfaces/ITransacao';
+import { Transacao } from '../../interfaces/Transacao';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -12,17 +12,17 @@ export class TransacaoService {
   constructor(private http: HttpClient) { }
   API = environment.apiUrl + 'transacoes';
 
-  salvar(transacao: ITransacao): Observable<ITransacao>{
-    return this.http.post<ITransacao>(this.API, transacao);
+  salvar(transacao: Transacao): Observable<Transacao>{
+    return this.http.post<Transacao>(this.API, transacao);
   }
 
-  consultar(): Observable<ITransacao[]>{
-    return this.http.get<ITransacao[]>(this.API);
+  consultar(): Observable<Transacao[]>{
+    return this.http.get<Transacao[]>(this.API);
   }
 
-  excluir(id: number): Observable<ITransacao>{
+  excluir(id: number): Observable<Transacao>{
     let URL = `${this.API}/${id}`
-    return this.http.delete<ITransacao>(URL);
+    return this.http.delete<Transacao>(URL);
   }
 
 }

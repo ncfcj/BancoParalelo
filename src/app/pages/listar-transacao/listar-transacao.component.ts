@@ -1,4 +1,6 @@
-import { ITransacao } from '../../interfaces/ITransacao';
+import { ConfiguracaoModal } from './../../interfaces/ConfiguracaoModal';
+import { ToolsService } from './../../services/tools/tools.service';
+import { Transacao } from './../../interfaces/Transacao';
 import { ModalExcluirTransacaoComponent } from '../shared/modal-excluir-transacao/modal-excluir-transacao.component';
 import { TransacaoService } from './../../services/transacao/transacao.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -17,12 +19,13 @@ export class ListarTransacaoComponent implements OnInit{
 
   constructor(
     private service: TransacaoService,
-    public dialog : MatDialog
-    ) { }
+    public dialog : MatDialog,
+    private tools : ToolsService
+  ) { }
 
   confirmaExclusao : boolean = false;
-  transacoes : ITransacao[] = [];
-  dataSource = new MatTableDataSource<ITransacao>();
+  transacoes : Transacao[] = [];
+  dadosTabela = new MatTableDataSource<Transacao>();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -31,36 +34,32 @@ export class ListarTransacaoComponent implements OnInit{
     this.buscarTransacoes();
   }
 
-  buscarTransacoes(): void{
-    this.service.consultar().subscribe((listaTransacoes) => {
-      this.transacoes = listaTransacoes;
-      this.dataSource = new MatTableDataSource<ITransacao>(listaTransacoes);
-      this.dataSource.paginator = this.paginator;
+  buscarTransacoes(): void {
+    this.service.consultar().subscribe((transacoes) => {
+      this.atribuirTransacoes(transacoes);
     });
   }
 
-  ExcluirTransacao(Id :number): void {
+  excluirTransacao(Id :number): void {
     let transacao = this.transacoes.find(x => x.id == Id);
-    let dialogRef = this.dialog.open(ModalExcluirTransacaoComponent, {
-      panelClass: 'custom-dialog-container',
+    this.tools.chamarModal(ModalExcluirTransacaoComponent, {
+      class: 'custom-dialog-container',
       height: '300px',
       width: '250px',
       maxHeight: '400px',
       maxWidth: '300px',
-      data: { id : transacao?.id,
-              Quantidade: transacao?.Quantidade,
-              ContaDestino: transacao?.ContaDestino}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.confirmaExclusao = result;
-      this.buscarTransacoes();
+      data : transacao
     });
   }
 
+  atribuirTransacoes(transacoes : Transacao[]): void {
+    this.transacoes = transacoes;
+    this.dadosTabela = new MatTableDataSource<Transacao>(transacoes);
+    this.dadosTabela.paginator = this.paginator;
+  }
 
   //Colunas exibidas no Mat-Table
-  displayedColumns = ['Id', 'Valor', 'Conta', 'Acoes'];
+  colunas = ['Id', 'Valor', 'Conta', 'Acoes'];
 
   //FA icons
   faTimes = faTimes;

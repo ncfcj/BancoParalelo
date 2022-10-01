@@ -9,8 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   constructor(
     private router: Router
-  ){
-  }
+  ){}
   title = 'banco-paralelo';
 
   getClassByRoute(){
@@ -19,4 +18,5 @@ export class AppComponent {
     }
     return "";
   }
+
 }
