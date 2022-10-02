@@ -2,7 +2,7 @@ import { ConfiguracaoModal } from './../../interfaces/ConfiguracaoModal';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ConfiguracaoAlerta } from '../../interfaces/ConfiguracaoAlerta';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Injectable, Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Buffer } from 'buffer';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/portal';
@@ -20,8 +20,8 @@ export class ToolsService {
 
   mostrarAlerta(configuracao : ConfiguracaoAlerta){
     this.alerta.open(`${configuracao.mensagem}`, `${configuracao.mensagemBotao}`, {
-      duration: configuracao.tipoAlerta == "erro" ? 3000 : configuracao.tipoAlerta == "sucesso" ? 1000 : 0,
-      horizontalPosition: "center",
+      duration: configuracao.duracao || 3000,
+      horizontalPosition: "right",
       verticalPosition: "top",
       panelClass: [`${configuracao.tipoAlerta == "erro" ? "erro-snackbar" : configuracao.tipoAlerta == "sucesso" ? "sucesso-snackbar" : ""}`],
     });
@@ -35,7 +35,7 @@ export class ToolsService {
     return Buffer.from(JSON.stringify(`${texto}`), 'base64').toString('utf-8');
   }
 
-  redirecionar(rota : string){
+  redirecionar(rota : string = ""){
     this.router.navigate([`${rota}`]);
   }
 

@@ -1,8 +1,6 @@
 import { ToolsService } from './../../services/tools/tools.service';
-import { ConfiguracaoAlerta } from './../../interfaces/ConfiguracaoAlerta';
 import { Component, OnInit } from '@angular/core';
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Usuario } from '../../interfaces/Usuario';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -51,10 +49,12 @@ export class LoginComponent implements OnInit {
           mensagemBotao : "",
           tipoAlerta : "sucesso"
         });
+        setTimeout(() => {
+          this.tools.redirecionar("listarTransacoes");
+        }, 1000);
       }
     });
   }
-
 
   //FA icons
   faSackDollar = faSackDollar;

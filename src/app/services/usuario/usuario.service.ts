@@ -21,10 +21,6 @@ export class UsuarioService {
     return this.mockUsuarioLogin(usuario).pipe(tap((resposta) => {
       if(!resposta.sucesso) return;
       this.salvarSessao(usuario);
-
-      setTimeout(() => {
-        this.tools.redirecionar("");
-      }, 1000);
     }))
   }
 
@@ -42,7 +38,7 @@ export class UsuarioService {
     return of(retornoMock);
   }
 
-  salvarSessao(usuario : Usuario){
+  private salvarSessao(usuario : Usuario){
     var token = this.tools.criptografar("TokenQueSeriaGeradoPelaAPI");
     var usuarioCriptografado = this.tools.criptografar(usuario);
     localStorage.setItem('token', token);

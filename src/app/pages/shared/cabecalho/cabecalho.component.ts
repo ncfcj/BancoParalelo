@@ -1,3 +1,4 @@
+import { UsuarioService } from './../../../services/usuario/usuario.service';
 import { ToolsService } from '../../../services/tools/tools.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -11,13 +12,15 @@ export class CabecalhoComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private tools: ToolsService
+    private tools: ToolsService,
+    private usuario: UsuarioService
   ) { }
 
   ngOnInit(): void {
   }
 
   deslogar(): void{
+
     this.tools.mostrarAlerta({
       mensagem: "Deslogando...",
       mensagemBotao: "",
@@ -25,14 +28,9 @@ export class CabecalhoComponent implements OnInit {
     });
 
     setTimeout(() => {
-      this.redirecionar("Login");
+      this.usuario.deslogar();
     }, 1000);
   }
-
-  redirecionar(rota : string){
-    this.router.navigate([`${rota}`]);
-  }
-
   //FA icons
   faSackDollar = faSackDollar;
 }
