@@ -9,8 +9,10 @@ import { environment } from 'src/environments/environment';
 })
 export class TransacaoService {
 
-  constructor(private http: HttpClient) { }
-  API = environment.apiUrl + 'transacoes';
+  constructor(
+    private http: HttpClient
+  ) { }
+  API = environment.apiUrl + 'Transacoes';
 
   salvar(transacao: Transacao): Observable<Transacao>{
     return this.http.post<Transacao>(this.API, transacao);

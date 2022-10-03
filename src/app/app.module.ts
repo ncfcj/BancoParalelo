@@ -1,3 +1,4 @@
+import { TokenInterceptor } from './services/interceptors/token.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -18,7 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { CurrencyMaskModule } from "ng2-currency-mask";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ListarTransacaoComponent } from './pages/listar-transacao/listar-transacao.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -68,7 +69,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   entryComponents: [
     ModalExcluirTransacaoComponent
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

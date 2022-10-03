@@ -11,29 +11,19 @@
   transition: all 1s ease;
 }
 
-.mat-column-Acoes {
-  width:8%;
+.cdk-column-Acoes {
   text-align: center;
-  padding-left: 3vw;
 }
 
 .mat-column-Valor {
-  width:30%;
-  text-align: center;
-}
-
-.mat-cell{
-  text-align: left;
+  min-width: 25%;
 }
 
 .mat-header-cell{
   text-align: center;
   background-color: #673ab7;
   color: white;
-}
-
-.mat-header-row{
-  text-align: center;
+  min-width: 5vw;
 }
 
 .mat-dialog-container{
@@ -41,7 +31,8 @@
   width: fit-content;
 }
 
-.tabela{
-  width: 40vw;
-  min-width: fit-content;
+.linhaVazia{
+  text-align: center;
+  padding: 20px;
 }
+

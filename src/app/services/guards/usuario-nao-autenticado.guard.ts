@@ -1,4 +1,4 @@
-import { UsuarioService } from './../usuario/usuario.service';
+import { AutenticacaoService } from '../autenticacao/autenticacao.service';
 import { ToolsService } from './../tools/tools.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class UsuarioNaoAutenticadoGuard implements CanActivate {
   constructor(
     private tools: ToolsService,
-    private usuario: UsuarioService
+    private usuario: AutenticacaoService
   ){}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree

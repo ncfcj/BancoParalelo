@@ -53,6 +53,7 @@ export class ListarTransacaoComponent implements OnInit{
   }
 
   atribuirTransacoes(transacoes : Transacao[]): void {
+    console.log(transacoes);
     this.transacoes = transacoes;
     this.dadosTabela = new MatTableDataSource<Transacao>(transacoes);
     this.dadosTabela.paginator = this.paginator;

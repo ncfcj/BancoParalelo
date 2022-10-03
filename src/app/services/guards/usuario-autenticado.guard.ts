@@ -1,5 +1,5 @@
 import { ToolsService } from './../tools/tools.service';
-import { UsuarioService } from './../usuario/usuario.service';
+import { AutenticacaoService } from '../autenticacao/autenticacao.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UsuarioAutenticadoGuard implements CanActivate {
   constructor(
-    private usuario: UsuarioService,
+    private usuario: AutenticacaoService,
     private tools: ToolsService
   ){}
 

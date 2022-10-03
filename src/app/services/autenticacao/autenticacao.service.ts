@@ -1,16 +1,18 @@
-import { ToolsService } from './../tools/tools.service';
+import { RespostaLogin } from '../../interfaces/RespostaLogin';
+import { ToolsService } from '../tools/tools.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Observable, of } from "rxjs";
 import { tap } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/interfaces/Usuario';
-const apiUrl = environment.apiUrl + 'usuarios';
+const apiUrl = environment.apiUrl + 'Usuarios';
+const apiUrlLogin = environment.apiUrl + 'Authentication/login';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class AutenticacaoService {
 
   constructor(
     private http: HttpClient,
@@ -18,29 +20,19 @@ export class UsuarioService {
   ) { }
 
   logar(usuario: Usuario) : Observable<any> {
-    return this.mockUsuarioLogin(usuario).pipe(tap((resposta) => {
-      if(!resposta.sucesso) return;
-      this.salvarSessao(usuario);
-    }))
+    return this.http.post<any>(apiUrlLogin, {
+      "email" : `${usuario.email}`,
+      "senha" : `${usuario.senha}`
+    }).pipe(tap((resposta) => {
+      console.log(resposta);
+      if(resposta.statusCode != 200 || resposta.statusCode == 401 ) return;
+      this.salvarSessao(resposta);
+    }));
   }
 
-  private mockUsuarioLogin(usuario: Usuario): Observable<any> {
-    var retornoMock: any = [];
-    if(usuario.email === "teste@teste.com" && usuario.senha == "123"){
-      retornoMock.sucesso = true;
-      retornoMock.usuario = usuario;
-      retornoMock.token = "TokenQueSeriaGeradoPelaAPI";
-      retornoMock.nome = "Nilton"
-      return of(retornoMock);
-    }
-    retornoMock.sucesso = false;
-    retornoMock.usuario = usuario;
-    return of(retornoMock);
-  }
-
-  private salvarSessao(usuario : Usuario){
-    var token = this.tools.criptografar("TokenQueSeriaGeradoPelaAPI");
-    var usuarioCriptografado = this.tools.criptografar(usuario);
+  private salvarSessao(login : RespostaLogin){
+    var token = this.tools.criptografar(login.token);
+    var usuarioCriptografado = this.tools.criptografar(login.usuario);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', usuarioCriptografado);
   }

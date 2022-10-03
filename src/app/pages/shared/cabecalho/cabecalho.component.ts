@@ -1,4 +1,4 @@
-import { UsuarioService } from './../../../services/usuario/usuario.service';
+import { AutenticacaoService } from '../../../services/autenticacao/autenticacao.service';
 import { ToolsService } from '../../../services/tools/tools.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -13,7 +13,7 @@ export class CabecalhoComponent implements OnInit {
   constructor(
     private router: Router,
     private tools: ToolsService,
-    private usuario: UsuarioService
+    private usuario: AutenticacaoService
   ) { }
 
   ngOnInit(): void {

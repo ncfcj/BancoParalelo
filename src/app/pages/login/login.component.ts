@@ -2,7 +2,7 @@ import { ToolsService } from './../../services/tools/tools.service';
 import { Component, OnInit } from '@angular/core';
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 import { Usuario } from '../../interfaces/Usuario';
-import { UsuarioService } from '../../services/usuario/usuario.service';
+import { AutenticacaoService } from '../../services/autenticacao/autenticacao.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class LoginComponent implements OnInit {
   constructor(
     private formularioBuilder: FormBuilder,
-    private service: UsuarioService,
+    private service: AutenticacaoService,
     private tools: ToolsService
   ) { }
 
@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
     if(this.formulario.invalid) return;
     var usuario = this.formulario.getRawValue() as Usuario;
     this.service.logar(usuario).subscribe((resposta) => {
-      if(!resposta.sucesso){
+      console.log(resposta);
+      if(resposta.statusCode != 200 || resposta.statusCode == 401){
         this.tools.mostrarAlerta({
           mensagem : "Falha no Login",
           mensagemBotao : "Usuario ou Senha Incorretos",
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
         });
       }else{
         this.tools.mostrarAlerta({
-          mensagem : `Seja Bem vindo(a) ${resposta.nome}`,
+          mensagem : `Seja Bem vindo(a) ${resposta.usuario}`,
           mensagemBotao : "",
           tipoAlerta : "sucesso"
         });
