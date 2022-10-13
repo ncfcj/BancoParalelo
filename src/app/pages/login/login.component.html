@@ -16,7 +16,10 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="form-field-full">
           <mat-label>Senha</mat-label>
-          <input class="input" type="password" matInput formControlName="senha">
+          <div fxLayout="row">
+            <input class="input" [type]="aparecerSenha ? 'text' : 'password'" matInput formControlName="senha">
+            <fa-icon (click)="mostrarSenha()" [icon]="aparecerSenha ? faEyeSlash : faEye"></fa-icon>
+          </div>
           <mat-error *ngIf="formulario.get('senha')!.invalid && formulario.get('senha')!.touched">Senha é
             <strong>obrigatória</strong>
           </mat-error>
@@ -24,6 +27,7 @@
       </mat-card-content>
     </form>
     <mat-card-actions align="end">
+      <button mat-raised-button color="primary" class="full" align="start" (click)="cadastrar()">Criar conta</button>
       <button mat-raised-button color="primary" class="full" align="end" (click)="logar()">Entrar</button>
     </mat-card-actions>
   </mat-card>

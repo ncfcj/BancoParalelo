@@ -1,0 +1,231 @@
+<div class="container">
+  <mat-card class="cardCadastro">
+    <mat-card-title class="titulo"><fa-icon [icon]="faUser"></fa-icon> Cadastrar</mat-card-title>
+    <form [formGroup]="usuario">
+      <mat-card-content class="conteudo-cadastro">
+        <h4><strong>Dados da Conta</strong></h4>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Tipo de Conta</mat-label>
+            <mat-select formControlName="tipoConta">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="filtroTipoDeConta" placeholderLabel="Pesquise" noEntriesFoundLabel="'Nenhum tipo de conta encontrado'"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let tipo of tiposFiltrados" [value]="tipo.Id">
+                {{tipo.Nome}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="usuario.get('tipoConta')!.invalid && usuario.get('tipoConta')!.touched">Tipo de Conta é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Agencia</mat-label>
+            <mat-select formControlName="agencia">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="filtroAgencias" placeholderLabel="Pesquise" noEntriesFoundLabel="'Nenhuma agencia encontrado'"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let agencia of agenciasFiltradas" [value]="agencia.id">
+                {{agencia.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="usuario.get('agencia')!.invalid && usuario.get('agencia')!.touched">Agencia é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <h4><strong>Dados Pessoais</strong></h4>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Nome</mat-label>
+            <input class="input" type="text" matInput formControlName="firstName" placeholder="Nome">
+            <mat-error *ngIf="usuario.get('firstName')!.hasError('required') && usuario.get('firstName')!.touched">
+              Nome é <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Sobrenome</mat-label>
+            <input class="input" type="text" matInput formControlName="lastName" placeholder="Sobrenome">
+            <mat-error *ngIf="usuario.get('lastName')!.hasError('required') && usuario.get('lastName')!.touched">
+              Sobrenome é <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Email</mat-label>
+            <input class="input" type="email" matInput formControlName="email" placeholder="Ex. email@email.com">
+            <mat-error *ngIf="usuario.get('email')!.hasError('email') && usuario.get('email')!.touched">
+              Por favor informe um email válido
+            </mat-error>
+            <mat-error *ngIf="usuario.get('email')!.hasError('required') && usuario.get('email')!.touched">
+              Email é <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Senha</mat-label>
+            <div fxLayout="row">
+              <input class="input" [type]="aparecerSenha ? 'text' : 'password'" matInput [formControl]="usuario.get('groupSenha')!.get('senha')!">
+              <fa-icon (click)="mostrarSenha()" [icon]="aparecerSenha ? faEyeSlash : faEye"></fa-icon>
+            </div>
+            <mat-error *ngIf="usuario.get('groupSenha')!.get('senha')!.invalid && usuario.get('groupSenha')!.get('senha')!.touched">Senha é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Confirmar Senha</mat-label>
+            <div fxLayout="row">
+              <input class="input" [type]="aparecerSenha ? 'text' : 'password'" matInput [formControl]="usuario.get('groupSenha')!.get('confirmarSenha')!">
+              <fa-icon (click)="mostrarSenha()" [icon]="aparecerSenha ? faEyeSlash : faEye"></fa-icon>
+            </div>
+            <mat-error *ngIf="usuario.get('groupSenha')!.get('confirmarSenha')!.invalid && usuario.get('groupSenha')!.get('confirmarSenha')!.touched">Confirmar Senha é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <!-- Forca da Senha -->
+          <div fxFlex="47%" appearance="outline" class="dicasSenha form-field-full">
+            <mat-progress-bar mode="determinate" [value]="getProgressoForcaSenha()"></mat-progress-bar>
+            <p>Senha deve conter ao menos:</p>
+            <p class="senhaDica" [ngClass]="contemRegraSenha('minLength')">8 caracteres</p>
+            <p class="senhaDica" [ngClass]="contemRegraSenha('upperLetter')">1 Letra Maiuscula</p>
+            <p class="senhaDica" [ngClass]="contemRegraSenha('lowerLetter')">1 Letra Minuscula</p>
+            <p class="senhaDica" [ngClass]="contemRegraSenha('specialChar')">1 Caractere Especial</p>
+            <p class="senhaDica" [ngClass]="contemRegraSenha('digit')">1 Numero</p>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>CPF</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00">
+            </div>
+            <mat-error>
+              <ng-container *ngFor="let error of errors(usuario?.get('cpf'))">
+                {{ errorMessage(error) }} <br>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Telefone</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput formControlName="telefone" placeholder="(00) 90000-0000" mask="(00) 00000-0000">
+            </div>
+            <mat-error *ngIf="usuario.get('telefone')!.invalid && usuario.get('telefone')!.touched">Telefone é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <h4><strong>Endereco</strong></h4>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>CEP</mat-label>
+            <div fxLayout="row">
+              <input class="input" (blur)="blurCEP()" type="text" matInput [formControl]="usuario.get('endereco')!.get('cep')!" mask="00000-000" placeholder="00000-000">
+            </div>
+            <mat-error>
+              <ng-container *ngFor="let error of errors(usuario?.get('endereco')!.get('cep'))">
+                {{ error != "pattern" ? null : errorMessage(error) }} <br>
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Rua</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput [formControl]="usuario.get('endereco')!.get('rua')!">
+            </div>
+            <mat-error *ngIf="usuario.get('endereco')!.get('rua')!.invalid && usuario.get('endereco')!.get('rua')!.touched">Rua é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Numero</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput [formControl]="usuario.get('endereco')!.get('numero')!">
+            </div>
+            <mat-error *ngIf="usuario.get('endereco')!.get('numero')!.invalid && usuario.get('endereco')!.get('numero')!.touched">Numero é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Complemento</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput [formControl]="usuario.get('endereco')!.get('complemento')!">
+            </div>
+            <mat-error *ngIf="usuario.get('endereco')!.get('complemento')!.invalid && usuario.get('endereco')!.get('complemento')!.touched">Complemento é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Bairro</mat-label>
+            <div fxLayout="row">
+              <input class="input" type="text" matInput [formControl]="usuario.get('endereco')!.get('bairro')!">
+            </div>
+            <mat-error *ngIf="usuario.get('endereco')!.get('bairro')!.invalid && usuario.get('endereco')!.get('bairro')!.touched">Bairro é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Pais</mat-label>
+            <mat-select (selectionChange)="changePaises()" [formControl]="usuario.get('endereco')!.get('pais')!">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="filtroPais" placeholderLabel="Pesquise" noEntriesFoundLabel="'Nenhum Pais encontrado'"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let pais of paisesFiltrados" [value]="pais.id" >
+                {{pais.nomeEmPortugues}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="usuario.get('endereco')!.get('pais')!.invalid && usuario.get('endereco')!.get('pais')!.touched">Pais é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Estado</mat-label>
+            <mat-select (selectionChange)="changeEstados()" [formControl]="usuario.get('endereco')!.get('estado')!">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="filtroEstados" placeholderLabel="Pesquise" noEntriesFoundLabel="'Nenhum Estado encontrado'"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let estado of estadosFiltrados" [value]="estado.id">
+                {{estado.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="usuario.get('endereco')!.get('estado')!.invalid && usuario.get('endereco')!.get('estado')!.touched">Estado é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+            <mat-label>Cidade</mat-label>
+            <mat-select [formControl]="usuario.get('endereco')!.get('cidade')!">
+              <mat-option>
+                <ngx-mat-select-search [formControl]="filtroCidades" placeholderLabel="Pesquise" noEntriesFoundLabel="'Nenhuma Cidade encontrada'"></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let cidade of cidadesFiltradas" [value]="cidade.id">
+                {{cidade.nome}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="usuario.get('endereco')!.get('cidade')!.invalid && usuario.get('endereco')!.get('cidade')!.touched">Cidade é
+              <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </form>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" class="full" align="start" (click)="voltar()">Voltar</button>
+      <button mat-raised-button color="primary" class="full" align="end" (click)="cadastrar()">Cadastrar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

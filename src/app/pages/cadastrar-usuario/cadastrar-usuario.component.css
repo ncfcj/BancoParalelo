@@ -1,0 +1,50 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #673ab7;
+  min-height: 100vh;
+}
+
+.cardCadastro{
+  min-width: 25vw;
+  min-height: 100vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.conteudo-cadastro{
+  padding-top: 2vh;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  min-width: 25vw;
+}
+
+.campo{
+  flex-grow: 49% !important;
+}
+
+p{
+  font-size: 13px;
+  margin: 2px;
+}
+
+.senhaDica{
+  border: 1px solid rgba(5, 0, 0, 0.24);
+  text-align: center;
+  font: inherit;
+  border-radius: 5px;
+}
+
+.senhaRegraAceita{
+  background-color: #673ab7;
+  color: white;
+}
+
+.dicasSenha{
+  max-height: 22vh;
+  position: relative;
+}
+
+

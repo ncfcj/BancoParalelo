@@ -1,3 +1,4 @@
+import { CadastrarUsuarioComponent } from './pages/cadastrar-usuario/cadastrar-usuario.component';
 import { UsuarioNaoAutenticadoGuard } from './services/guards/usuario-nao-autenticado.guard';
 import { UsuarioAutenticadoGuard } from './services/guards/usuario-autenticado.guard';
 import { HomeComponent } from './pages/home/home.component';
@@ -11,6 +12,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [UsuarioNaoAutenticadoGuard]
+  },
+  {
+    path: 'cadastrarUsuario',
+    component: CadastrarUsuarioComponent,
     canActivate: [UsuarioNaoAutenticadoGuard]
   },
   {

@@ -18,7 +18,6 @@ export class UsuarioAutenticadoGuard implements CanActivate {
     if(this.usuario.logado){
       return true;
     }
-    console.log("cheguei aqui");
     this.tools.redirecionar("login");
     return false;
   }

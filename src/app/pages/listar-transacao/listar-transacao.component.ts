@@ -1,4 +1,3 @@
-import { ConfiguracaoModal } from './../../interfaces/ConfiguracaoModal';
 import { ToolsService } from './../../services/tools/tools.service';
 import { Transacao } from './../../interfaces/Transacao';
 import { ModalExcluirTransacaoComponent } from '../shared/modal-excluir-transacao/modal-excluir-transacao.component';

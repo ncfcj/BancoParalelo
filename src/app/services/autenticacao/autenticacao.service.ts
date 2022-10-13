@@ -6,7 +6,6 @@ import { Observable, of } from "rxjs";
 import { tap } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/interfaces/Usuario';
-const apiUrl = environment.apiUrl + 'Usuarios';
 const apiUrlLogin = environment.apiUrl + 'Authentication/login';
 
 @Injectable({
@@ -21,12 +20,12 @@ export class AutenticacaoService {
 
   logar(usuario: Usuario) : Observable<any> {
     return this.http.post<any>(apiUrlLogin, {
-      "email" : `${usuario.email}`,
-      "senha" : `${usuario.senha}`
+      "email" : `${this.tools.criptografar(usuario.email)}`,
+      "senha" : `${this.tools.criptografar(usuario.senha)}`
     }).pipe(tap((resposta) => {
-      console.log(resposta);
-      if(resposta.statusCode != 200 || resposta.statusCode == 401 ) return;
-      this.salvarSessao(resposta);
+      if(resposta.statusCode == 200){
+        this.salvarSessao(resposta);
+      }
     }));
   }
 
@@ -55,7 +54,7 @@ export class AutenticacaoService {
     if(temUsuarioLogado){
       var usuarioLogado = this.tools.descriptografar(temUsuarioLogado?.toString());
       usuario = JSON.parse(usuarioLogado);
-      return usuario.id;
+      return usuario.id!;
     }
     return "";
   }

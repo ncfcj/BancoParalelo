@@ -14,6 +14,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: whitesmoke;
   border: 1px solid red;
   color: #673ab7;
+  white-space: pre-wrap;
 }
 
 .erro-snackbar button{
@@ -25,6 +26,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: whitesmoke;
   border: 1px solid #673ab7;
   color: #673ab7;
+  white-space: pre-wrap;
 }
 
 .sucesso-snackbar button{

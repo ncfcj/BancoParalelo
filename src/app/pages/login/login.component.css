@@ -10,8 +10,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #673ab7;
   min-height: 100vh;
+  background-color: #673ab7;
 }
 
 .conteudo-login{

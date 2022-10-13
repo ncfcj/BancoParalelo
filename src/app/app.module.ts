@@ -30,7 +30,13 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PrincipalComponent } from './pages/shared/principal/principal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { CadastrarUsuarioComponent } from './pages/cadastrar-usuario/cadastrar-usuario.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +47,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ModalExcluirTransacaoComponent,
     LoginComponent,
     HomeComponent,
-    PrincipalComponent
+    PrincipalComponent,
+    CadastrarUsuarioComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDialogModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FlexLayoutModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatProgressBarModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     ModalExcluirTransacaoComponent

@@ -1,6 +1,8 @@
+import { of, throwError } from 'rxjs';
+import { catchError } from 'rxjs';
 import { ToolsService } from './../../services/tools/tools.service';
 import { Component, OnInit } from '@angular/core';
-import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
+import { faSackDollar, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { Usuario } from '../../interfaces/Usuario';
 import { AutenticacaoService } from '../../services/autenticacao/autenticacao.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -21,6 +23,8 @@ export class LoginComponent implements OnInit {
     this.criarFormulario();
   }
 
+  aparecerSenha : boolean = false;
+
   formulario = new FormGroup ({
     email: new FormControl(),
     senha: new FormControl()
@@ -36,15 +40,17 @@ export class LoginComponent implements OnInit {
   logar() : void {
     if(this.formulario.invalid) return;
     var usuario = this.formulario.getRawValue() as Usuario;
-    this.service.logar(usuario).subscribe((resposta) => {
-      console.log(resposta);
-      if(resposta.statusCode != 200 || resposta.statusCode == 401){
+    this.service.logar(usuario)
+    .pipe(
+      catchError(err => {
         this.tools.mostrarAlerta({
-          mensagem : "Falha no Login",
-          mensagemBotao : "Usuario ou Senha Incorretos",
+          mensagem : `Email ou Senha Incorretos`,
+          mensagemBotao : "",
           tipoAlerta : "erro"
         });
-      }else{
+        return throwError(err);
+      })
+    ).subscribe((resposta) => {
         this.tools.mostrarAlerta({
           mensagem : `Seja Bem vindo(a) ${resposta.usuario}`,
           mensagemBotao : "",
@@ -53,10 +59,20 @@ export class LoginComponent implements OnInit {
         setTimeout(() => {
           this.tools.redirecionar("listarTransacoes");
         }, 1000);
-      }
     });
+  }
+
+  cadastrar() : void {
+    this.tools.redirecionar("cadastrarUsuario");
+  }
+
+  mostrarSenha() : boolean{
+    this.aparecerSenha = !this.aparecerSenha;
+    return this.aparecerSenha;
   }
 
   //FA icons
   faSackDollar = faSackDollar;
+  faEyeSlash = faEyeSlash;
+  faEye = faEye;
 }
