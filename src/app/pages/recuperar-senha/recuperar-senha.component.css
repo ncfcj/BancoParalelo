@@ -1,0 +1,33 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #673ab7;
+  min-height: 100vh;
+}
+
+.card{
+  min-width: 20rem;
+  min-height: 20rem;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.botoesAcoes{
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+}
+
+.conteudoCard{
+  display: flex;
+  flex-flow: column;
+}
+
+form{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 15rem;
+}

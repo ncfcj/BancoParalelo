@@ -26,10 +26,15 @@
         </mat-form-field>
       </mat-card-content>
     </form>
-    <mat-card-actions align="end">
-      <button mat-raised-button color="primary" class="full" align="start" (click)="cadastrar()">Criar conta</button>
+    <div class="botoesAcoes">
+      <div class="botoesConta">
+          <div class="botaoCadastro">
+            <button mat-raised-button color="primary" class="full" align="start" (click)="cadastrar()">Criar conta</button>
+          </div>
+          <button mat-raised-button color="primary" class="full" align="start" (click)="recuperarSenha()">Esqueci a Senha</button>
+      </div>
       <button mat-raised-button color="primary" class="full" align="end" (click)="logar()">Entrar</button>
-    </mat-card-actions>
+    </div>
   </mat-card>
 </div>
 

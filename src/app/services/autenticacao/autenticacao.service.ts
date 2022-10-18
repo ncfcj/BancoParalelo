@@ -2,7 +2,7 @@ import { RespostaLogin } from '../../interfaces/RespostaLogin';
 import { ToolsService } from '../tools/tools.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { tap } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
 import { Usuario } from 'src/app/interfaces/Usuario';
@@ -20,7 +20,7 @@ export class AutenticacaoService {
 
   logar(usuario: Usuario) : Observable<any> {
     return this.http.post<any>(apiUrlLogin, {
-      "email" : `${this.tools.criptografar(usuario.email)}`,
+      "email" : `${usuario.email}`,
       "senha" : `${this.tools.criptografar(usuario.senha)}`
     }).pipe(tap((resposta) => {
       if(resposta.statusCode == 200){
@@ -32,8 +32,12 @@ export class AutenticacaoService {
   private salvarSessao(login : RespostaLogin){
     var token = this.tools.criptografar(login.token);
     var usuarioCriptografado = this.tools.criptografar(login.usuario);
+    var emailCriptografado = login.email;
+    var emailConfirmado = login.emailConfirmado.toString();
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', usuarioCriptografado);
+    localStorage.setItem('emailConfirmado', emailConfirmado);
+    localStorage.setItem('email', emailCriptografado);
   }
 
   deslogar() {
@@ -71,5 +75,15 @@ export class AutenticacaoService {
   get logado() : boolean{
     var temUsuarioLogado = localStorage.getItem('token');
     return temUsuarioLogado ? true : false;
+  }
+
+  get emailConfirmado() : boolean{
+    var emailConfirmado = localStorage.getItem('emailConfirmado');
+    return emailConfirmado == 'true' ? true : false;
+  }
+
+  get email() : string {
+    var email = localStorage.getItem('email')!;
+    return email;
   }
 }

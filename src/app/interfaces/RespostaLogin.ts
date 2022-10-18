@@ -1,5 +1,7 @@
 export interface RespostaLogin{
   token: string,
   usuario: string,
-  statusCode: number
+  statusCode: number,
+  emailConfirmado: boolean,
+  email: string
 }

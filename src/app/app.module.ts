@@ -1,7 +1,8 @@
+import { SignalrService } from './services/signalr/signalr.service';
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CabecalhoComponent } from './pages/shared/cabecalho/cabecalho.component';
@@ -37,6 +38,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ConfirmacaoEmailComponent } from './pages/confirmacao-email/confirmacao-email.component';
+import { EmailConfirmadoComponent } from './pages/email-confirmado/email-confirmado.component';
+import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +53,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     LoginComponent,
     HomeComponent,
     PrincipalComponent,
-    CadastrarUsuarioComponent
+    CadastrarUsuarioComponent,
+    ConfirmacaoEmailComponent,
+    EmailConfirmadoComponent,
+    RecuperarSenhaComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +91,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ModalExcluirTransacaoComponent
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+    SignalrService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (signalrService: SignalrService) => () => signalrService.initiateSignalrConnection(),
+      deps: [SignalrService],
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

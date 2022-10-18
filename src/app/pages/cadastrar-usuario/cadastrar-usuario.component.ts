@@ -1,3 +1,5 @@
+import { EmailService } from './../../services/email/email.service';
+import { Router } from '@angular/router';
 import { AgenciaService } from './../../services/agencia/agencia.service';
 import { Agencia } from './../../interfaces/Agencia';
 import { CPFValidator } from './../../services/validators/CPFValidator';
@@ -26,7 +28,9 @@ export class CadastrarUsuarioComponent implements OnInit {
     private tools : ToolsService,
     private fb : FormBuilder,
     private enderecoService : EnderecoService,
-    private agenciaService: AgenciaService
+    private agenciaService: AgenciaService,
+    private router: Router,
+    private email: EmailService
   ) { }
 
   //Controladores para Senha
@@ -344,15 +348,15 @@ export class CadastrarUsuarioComponent implements OnInit {
     .subscribe({
       next : resposta => {
         console.log(resposta);
-        this.tools.mostrarAlerta({
-          mensagem : "Cadastrado com Sucesso",
-          mensagemBotao: "",
-          tipoAlerta: "sucesso",
-          duracao: 1000
-        });
-        setTimeout(() => {
-          this.tools.redirecionar("login");
-        }, 1000);
+          this.tools.mostrarAlerta({
+            mensagem : "Cadastrado com Sucesso",
+            mensagemBotao: "",
+            tipoAlerta: "sucesso",
+            duracao: 1000
+          });
+          setTimeout(() => {
+            this.router.navigate(['confirmarEmail'], { queryParams : { email : usuario?.email}});
+          }, 1000);
       },
       error : erro => {
         console.log(erro);
@@ -374,7 +378,7 @@ export class CadastrarUsuarioComponent implements OnInit {
       return
     }
     var usuario = {
-      email : this.tools.criptografar(usuarioFormulario.get('email')!.value),
+      email : usuarioFormulario.get('email')!.value,
       senha : this.tools.criptografar(usuarioFormulario.get('groupSenha')!.get('senha')!.value),
       cpf : this.tools.criptografar(usuarioFormulario.get('cpf')!.value),
       endereco : {

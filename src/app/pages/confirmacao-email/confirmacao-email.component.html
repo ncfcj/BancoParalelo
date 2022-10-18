@@ -1,0 +1,21 @@
+<div class="container">
+  <mat-card class='card'>
+    <mat-card-title style="text-align: center; padding-top: 3vh;">
+      Confirmar Email
+    </mat-card-title>
+    <div class="cardConteudo">
+      <div class="gifContainer">
+        <div *ngIf="esperandoConfirmacao" class="loading">
+          <img class="gifLoading" src="/assets/gifs/loading.gif" />
+        </div>
+        <div *ngIf="emailConfirmado == true">
+          <img class="gifConfirm" src="/assets/gifs/check.gif" />
+        </div>
+      </div>
+      <p> Um Email foi enviado para a sua caixa de entrada para que seja feita a confirmacao, caso nao apareca o email, aperte no botao para que ele seja reenviado!</p>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" class="full" align="end" (click)="enviarEmail()">Reenviar Email de Confirmacao</button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>

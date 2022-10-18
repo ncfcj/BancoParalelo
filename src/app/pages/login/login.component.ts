@@ -1,3 +1,4 @@
+import { EmailService } from './../../services/email/email.service';
 import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs';
 import { ToolsService } from './../../services/tools/tools.service';
@@ -6,6 +7,7 @@ import { faSackDollar, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-ico
 import { Usuario } from '../../interfaces/Usuario';
 import { AutenticacaoService } from '../../services/autenticacao/autenticacao.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private formularioBuilder: FormBuilder,
     private service: AutenticacaoService,
-    private tools: ToolsService
+    private tools: ToolsService,
+    private email: EmailService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -57,8 +61,12 @@ export class LoginComponent implements OnInit {
           tipoAlerta : "sucesso"
         });
         setTimeout(() => {
-          this.tools.redirecionar("listarTransacoes");
-        }, 1000);
+          if(resposta.emailConfirmado){
+            this.tools.redirecionar("listarTransacoes");
+          }else{
+            this.router.navigate(['confirmarEmail']);
+          }
+        });
     });
   }
 
@@ -69,6 +77,10 @@ export class LoginComponent implements OnInit {
   mostrarSenha() : boolean{
     this.aparecerSenha = !this.aparecerSenha;
     return this.aparecerSenha;
+  }
+
+  recuperarSenha(): void{
+    this.tools.redirecionar("recuperarSenha");
   }
 
   //FA icons

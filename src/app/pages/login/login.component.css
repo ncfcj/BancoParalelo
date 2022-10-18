@@ -32,3 +32,23 @@
 .rodape{
   display: none;
 }
+
+.botoesConta{
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  gap: 0.2rem;
+  padding-right: 0.5rem;
+}
+
+.botaoCadastro{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.botoesAcoes{
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+

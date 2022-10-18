@@ -1,0 +1,62 @@
+<div class="container">
+  <mat-card class='card'>
+    <mat-card-title>
+      Recuperar sua Senha
+    </mat-card-title>
+    <div class="conteudoCard">
+      <form [formGroup]="recuperarSenha">
+        <mat-card-content class="conteudo-recuperar-senha">
+          <div *ngIf="mostrarCampoEmail()">
+            <div fxLayout="row" fxLayoutAlign="center">
+              <div class="email" fxLayout="column" fxLayoutAlign="center">
+                <h4><strong>Email da Conta</strong></h4>
+                <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+                  <mat-label>Email</mat-label>
+                  <input class="input" type="email" matInput formControlName="email" placeholder="Ex. email@email.com">
+                  <mat-error *ngIf="recuperarSenha.get('email')!.invalid && recuperarSenha.get('email')!.touched">Email é
+                    <strong>obrigatório</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="mostrarCamposSenha()">
+            <h4><strong>Cadastre sua nova senha</strong></h4>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+                <mat-label>Nova Senha</mat-label>
+                <div fxLayout="row">
+                  <input class="input" [type]="aparecerSenha ? 'text' : 'password'" matInput [formControl]="recuperarSenha.get('groupSenha')!.get('senha')!">
+                  <fa-icon (click)="mostrarSenha()" [icon]="aparecerSenha ? faEyeSlash : faEye"></fa-icon>
+                </div>
+                <mat-error *ngIf="recuperarSenha.get('groupSenha')!.get('senha')!.invalid && recuperarSenha.get('groupSenha')!.get('senha')!.touched">Senha é
+                  <strong>obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <mat-form-field fxFlex="47%" appearance="outline" class="form-field-full">
+                <mat-label>Confirmar Senha</mat-label>
+                <div fxLayout="row">
+                  <input class="input" [type]="aparecerSenha ? 'text' : 'password'" matInput [formControl]="recuperarSenha.get('groupSenha')!.get('confirmarSenha')!">
+                  <fa-icon (click)="mostrarSenha()" [icon]="aparecerSenha ? faEyeSlash : faEye"></fa-icon>
+                </div>
+                <mat-error *ngIf="recuperarSenha.get('groupSenha')!.get('confirmarSenha')!.invalid && recuperarSenha.get('groupSenha')!.get('confirmarSenha')!.touched">Confirmar Senha é
+                  <strong>obrigatório</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </form>
+      <div class="botoesAcoes">
+        <div *ngIf="mostrarCampoEmail()">
+          <button mat-raised-button color="primary" class="full" align="end" (click)="buscarEmail()">Buscar</button>
+        </div>
+        <div *ngIf="mostrarCamposSenha()">
+          <button mat-raised-button color="primary" class="full" align="end" (click)="alterarSenha()">Mudar Senha</button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

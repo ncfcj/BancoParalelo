@@ -1,0 +1,43 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #673ab7;
+  min-height: 100vh;
+}
+
+.card{
+  min-width: 50vw;
+  max-width: 50vw;
+  min-height: 60vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.gifLoading{
+  width: 15rem;
+  height: 15rem;
+}
+
+.gifConfirm{
+  width: 26rem;
+  height: 25rem;
+}
+
+.gifContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardConteudo{
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+
+.loading{
+  margin: 5rem;
+}

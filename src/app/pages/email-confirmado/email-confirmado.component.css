@@ -1,0 +1,20 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #673ab7;
+  min-height: 100vh;
+}
+
+.card{
+  min-width: 20rem;
+  max-width: 20rem;
+  min-height: 20rem;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.gifConfirm{
+  width: 20rem;
+  height: 15rem;
+}
